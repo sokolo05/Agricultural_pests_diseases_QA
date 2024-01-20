@@ -1,0 +1,2 @@
+# Agricultural_pests_diseases_QA
+农业病虫害智能问答系统
