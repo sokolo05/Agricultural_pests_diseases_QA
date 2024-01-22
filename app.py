@@ -68,8 +68,8 @@ with block as demo:
     with gr.Row(equal_height=True):   
         with gr.Column(scale=15):
             # 展示的页面标题
-            gr.Markdown("""<h1><center>InternLM</center></h1>
-                <center>书生浦语</center>
+            gr.Markdown("""<h1><center>农业智能问答</center></h1>
+                <center>sokolo05</center>
                 """)
 
     with gr.Row():
@@ -77,7 +77,7 @@ with block as demo:
             # 创建一个聊天机器人对象
             chatbot = gr.Chatbot(height=450, show_copy_button=True)
             # 创建一个文本框组件，用于输入 prompt。
-            msg = gr.Textbox(label="Prompt/问题")
+            msg = gr.Textbox(label="请输入一个农业相关问题")
 
             with gr.Row():
                 # 创建提交按钮。
