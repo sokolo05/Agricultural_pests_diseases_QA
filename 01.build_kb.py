@@ -2,6 +2,7 @@
 from langchain.document_loaders import UnstructuredFileLoader
 from langchain.document_loaders import UnstructuredMarkdownLoader
 from langchain.document_loaders import PyPDFLoader
+from langchain.document_loaders import JSONLoader
 # from langchain.chains import ChatVectorDBchain 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
@@ -23,6 +24,8 @@ def get_files(dir_path):
             elif filename.endswith(".txt"):
                 file_list.append(os.path.join(filepath, filename))
             elif filename.endswith(".pdf"):
+                file_list.append(os.path.join(filepath, filename))
+            elif filename.endswith(".json"):
                 file_list.append(os.path.join(filepath, filename))
                 
     return file_list
@@ -47,6 +50,8 @@ def get_text(dir_path):
             loader = UnstructuredFileLoader(one_file)
         elif file_type == 'pdf':
             loader = PyPDFLoader(one_file)
+        elif file_type == 'json':
+            loader = JSONLoader(one_file,  jq_schema='.messages[].content', text_content=False)
         else:
             # 如果是不符合条件的文件，直接跳过
             continue
@@ -67,12 +72,7 @@ def get_text(dir_path):
 # ]
 
 tar_dir = [
-    '/root/code/paper_demo/01.小麦',
-    '/root/code/paper_demo/02.水稻',
-    '/root/code/paper_demo/03.玉米',
-    '/root/code/paper_demo/04.棉花',
-    '/root/code/paper_demo/a.植物保护学报',
-    '/root/code/paper_demo/b.植物病理学报'
+    '/root/code/paper_demo/nongji_dataset_split'
     ]
 
 # 加载目标文件
@@ -81,11 +81,11 @@ for dir_path in tar_dir:
     docs.extend(get_text(dir_path))
 print(f'docs = {docs}')
 
-# 对文本进行分块
+# 对文本进行分块 -----报错：Batch size 77506 exceeds batch size 41666 maximum 需要设置text_splitter.split的切片[:41666] 或者修改文件大小------
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=500, chunk_overlap=150)
 print(f'text_splitter = {text_splitter}')
-split_docs = text_splitter.split_documents(docs)
+split_docs = text_splitter.split_documents(docs)[:41666]
 print(f'split_docs = {split_docs}')
 
 # 加载开源词向量模型

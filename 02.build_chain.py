@@ -35,13 +35,13 @@ template = """使用以下上下文来回答最后的问题。如果你不知道
 
 # 调用 LangChain 的方法来实例化一个 Template 对象，该对象包含了 context 和 question 两个变量，在实际调用时，这两个变量会被检索到的文档片段和用户提问填充
 QA_CHAIN_PROMPT = PromptTemplate(input_variables=["context","question"],template=template)
-print(f'实例化一个PromptTemplate的QA_CHAIN_PROMPT = {QA_CHAIN_PROMPT}')
+# print(f'实例化一个PromptTemplate的QA_CHAIN_PROMPT = {QA_CHAIN_PROMPT}')
 from langchain.chains import RetrievalQA
 
 qa_chain = RetrievalQA.from_chain_type(llm,retriever=vectordb.as_retriever(),return_source_documents=True,chain_type_kwargs={"prompt":QA_CHAIN_PROMPT})
-print(f'基于 InternLM 的检索问答链 qa_chain = {qa_chain}')
+# print(f'基于 InternLM 的检索问答链 qa_chain = {qa_chain}')
 # 检索问答链回答效果
-question = "什么是小麦赤霉病"
+question = "斑鸠吃什么食物?"
 print(f'question = {question}')
 result = qa_chain({"query": question})
 print("检索问答链回答 question 的结果：")
